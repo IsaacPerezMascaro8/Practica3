@@ -5,8 +5,6 @@
 #include <stdexcept>
 #include "BSNode.h"
 
-using namespace std;
-
 template <typename T>
 class BSTree {
 private:
@@ -16,7 +14,7 @@ private:
     // Búsqueda recursiva
     BSNode<T>* search(BSNode<T>* n, T e) const {
         if (n == nullptr) {
-            throw runtime_error("Element not found");
+            throw std::runtime_error("Element not found");
         } else if (e < n->elem) {
             return search(n->left, e);
         } else if (e > n->elem) {
@@ -36,13 +34,13 @@ private:
         } else if (e > n->elem) {
             n->right = insert(n->right, e);
         } else {
-            throw runtime_error("Duplicated element");
+            throw std::runtime_error("Duplicated element");
         }
         return n;
     }
 
     // Recorrido inorden
-    void print_inorder(ostream& out, BSNode<T>* n) const {
+    void print_inorder(std::ostream& out, BSNode<T>* n) const {
         if (n != nullptr) {
             print_inorder(out, n->left);
             out << n->elem << " ";
@@ -53,7 +51,7 @@ private:
     // Eliminar el nodo con el elemento máximo
     T max(BSNode<T>* n) const {
         if (n == nullptr) {
-            throw runtime_error("Tree is empty");
+            throw std::runtime_error("Tree is empty");
         }
         while (n->right != nullptr) {
             n = n->right;
@@ -74,7 +72,7 @@ private:
     // Eliminación recursiva
     BSNode<T>* remove(BSNode<T>* n, T e) {
         if (n == nullptr) {
-            throw runtime_error("Element not found");
+            throw std::runtime_error("Element not found");
         } else if (e < n->elem) {
             n->left = remove(n->left, e);
         } else if (e > n->elem) {
@@ -138,11 +136,11 @@ public:
     }
 
     // Sobrecarga del operador <<
-    friend ostream& operator<<(ostream& out, const BSTree<T>& bst) {
+    friend std::ostream& operator<<(std::ostream& out, const BSTree<T>& bst) {
         bst.print_inorder(out, bst.root);
         return out;
     }
 };
 
-#endif 
+#endif // BSTREE_H
 
