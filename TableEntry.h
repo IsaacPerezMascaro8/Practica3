@@ -4,37 +4,37 @@
 #include <string>
 #include <ostream>
 
-using namespace std;
-
 template <typename V>
-
 class TableEntry {
+	public:
+        	std::string key;
+        	V value;
 
-public:
-   
-    string key;
-    V value;
+       		TableEntry(std::string key, V value) : key(key), value(value) {}
+		TableEntry(std::string key) : key(key), value() {}
+        	TableEntry() : key(""), value() {}
 
-    
-    TableEntry(string key, V value) : key(key), value(value) {} //Constructor con key y value
-    TableEntry(string key) : key(key), value() {} //Constructor con key pero sin value
-    TableEntry() : key(""), value() {} //Cadena vacía y sin valor
+        	friend bool operator==(const TableEntry<V> &te1, const TableEntry<V> &te2) {
+            		return te1.key == te2.key && te1.value == te2.value;
+        	}
 
-    // Determinar que dos instancias de TableEntry son iguales (solo si comparten la misma clave)
-    friend bool operator==(const TableEntry<V>& te1, const TableEntry<V>& te2) {
-        return te1.key == te2.key;
-    }
+        	friend bool operator!=(const TableEntry<V> &te1, const TableEntry<V> &te2) {
+            		return !(te1 == te2);
+        	}
 
-    // Determinar que dos instancias de TableEntry son diferentes (solo si sus claves son distintas)
-    friend bool operator!=(const TableEntry<V>& te1, const TableEntry<V>& te2) {
-        return !(te1 == te2);
-    }
+        	friend std::ostream &operator<<(std::ostream &out, const TableEntry<V> &te) {
+            		out << "Key: " << te.key << ", Value: " << te.value;
+            		return out;
+		}
+		// Añadidos operadores < y >
+		friend bool operator<(const TableEntry<V>& te1, const TableEntry<V>& te2) {
+   			 return te1.key < te2.key;
+		}
 
-    // Imprimir el contenido de la entrada
-    friend ostream& operator<<(ostream& out, const TableEntry<V>& te) {
-        out << "{" << te.key << " -> " << te.value << "}";
-        return out;
-    }
+		friend bool operator>(const TableEntry<V>& te1, const TableEntry<V>& te2) {
+   			 return te1.key > te2.key;
+		}
+
 };
 
 #endif
